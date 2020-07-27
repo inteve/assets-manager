@@ -3,6 +3,7 @@
 	namespace Inteve\AssetsManager;
 
 	use CzProject\Assert\Assert;
+	use Nette\Utils\Validators;
 
 
 	class AssetsManager
@@ -34,6 +35,9 @@
 		 */
 		public function getPath($path, $basePath = '')
 		{
+			if (Validators::isUrl($path)) {
+				return $path;
+			}
 			return rtrim($basePath, '/') . '/' . $path;
 		}
 
