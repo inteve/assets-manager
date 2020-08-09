@@ -17,6 +17,9 @@
 		/** @var AssetFile[] */
 		private $scripts = [];
 
+		/** @var AssetFile[] */
+		private $criticalScripts = [];
+
 
 		/**
 		 * @param  bool
@@ -74,20 +77,23 @@
 
 
 		/**
+		 * @param  string
+		 * @param  string|NULL
+		 * @return void
+		 */
+		public function addCriticalScript($file, $environment = NULL)
+		{
+			$this->criticalScripts[] = new AssetFile($file, $environment);
+		}
+
+
+		/**
 		 * @param  string|NULL
 		 * @return AssetFile[]
 		 */
 		public function getStylesheets($environment = NULL)
 		{
-			$res = [];
-
-			foreach ($this->stylesheets as $file) {
-				if ($file->isForEnvironment($environment)) {
-					$res[] = $file;
-				}
-			}
-
-			return $res;
+			return $this->getFiles($this->stylesheets, $environment);
 		}
 
 
@@ -97,9 +103,25 @@
 		 */
 		public function getScripts($environment = NULL)
 		{
+			return $this->getFiles($this->scripts, $environment);
+		}
+
+
+		/**
+		 * @param  string|NULL
+		 * @return AssetFile[]
+		 */
+		public function getCriticalScripts($environment = NULL)
+		{
+			return $this->getFiles($this->criticalScripts, $environment);
+		}
+
+
+		private function getFiles(array $files, $environment = NULL)
+		{
 			$res = [];
 
-			foreach ($this->scripts as $file) {
+			foreach ($files as $file) {
 				if ($file->isForEnvironment($environment)) {
 					$res[] = $file;
 				}

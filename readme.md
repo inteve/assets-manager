@@ -42,6 +42,16 @@ $manager->addScript('js/prod.js', 'production');
 $assetFiles = $manager->getScripts(string $environment = NULL);
 $assetFiles = $manager->getScripts(); // returns 'js/script.js'
 $assetFiles = $manager->getScripts('production'); // returns 'js/script.js' & 'js/prod.js'
+
+
+// critical scripts (scripts in <head> for example)
+$manager->addCriticalScript(string $file, string $environment = NULL);
+$manager->addCriticalScript('js/script.js');
+$manager->addCriticalScript('js/prod.js', 'production');
+
+$assetFiles = $manager->addCriticalScript(string $environment = NULL);
+$assetFiles = $manager->addCriticalScript(); // returns 'js/script.js'
+$assetFiles = $manager->addCriticalScript('production'); // returns 'js/script.js' & 'js/prod.js'
 ```
 
 ------------------------------

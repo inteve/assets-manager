@@ -14,6 +14,9 @@ test(function () {
 	$manager->addScript('scripts.js');
 	$manager->addScript('prod.js', 'production');
 
+	$manager->addCriticalScript('scripts.js');
+	$manager->addCriticalScript('prod.js', 'production');
+
 	Assert::same([
 		'styles.css',
 	], extractPaths($manager->getStylesheets()));
@@ -31,4 +34,9 @@ test(function () {
 		'scripts.js',
 		'prod.js',
 	], extractPaths($manager->getScripts('production')));
+
+	Assert::same([
+		'scripts.js',
+		'prod.js',
+	], extractPaths($manager->getCriticalScripts('production')));
 });
