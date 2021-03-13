@@ -38,11 +38,15 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string|AssetFile
 		 * @return string
 		 */
 		public function getPath($path)
 		{
+			if ($path instanceof AssetFile) {
+				$path = $path->getPath();
+			}
+
 			if (Validators::isUrl($path)) {
 				return $path;
 			}
