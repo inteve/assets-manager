@@ -14,14 +14,8 @@
 		/** @var string|NULL */
 		private $defaultEnvironment;
 
-		/** @var AssetFile[] */
-		private $stylesheets = [];
-
-		/** @var AssetFile[] */
-		private $scripts = [];
-
-		/** @var AssetFile[] */
-		private $criticalScripts = [];
+		/** @var AssetFiles */
+		private $assetFiles;
 
 
 		/**
@@ -34,6 +28,7 @@
 			Assert::stringOrNull($defaultEnvironment);
 			$this->publicBasePath = $publicBasePath;
 			$this->defaultEnvironment = $defaultEnvironment;
+			$this->assetFiles = new AssetFiles;
 		}
 
 
@@ -70,7 +65,7 @@
 		 */
 		public function addStylesheet($file, $environment = NULL)
 		{
-			$this->stylesheets[] = new AssetFile($file, $environment);
+			$this->assetFiles->addStylesheet($file, $environment);
 		}
 
 
@@ -81,7 +76,7 @@
 		 */
 		public function addScript($file, $environment = NULL)
 		{
-			$this->scripts[] = new AssetFile($file, $environment);
+			$this->assetFiles->addScript($file, $environment);
 		}
 
 
@@ -92,7 +87,7 @@
 		 */
 		public function addCriticalScript($file, $environment = NULL)
 		{
-			$this->criticalScripts[] = new AssetFile($file, $environment);
+			$this->assetFiles->addCriticalScript($file, $environment);
 		}
 
 
@@ -102,7 +97,7 @@
 		 */
 		public function getStylesheets($environment = NULL)
 		{
-			return $this->getFiles($this->stylesheets, $environment);
+			return $this->assetFiles->getStylesheets($environment);
 		}
 
 
@@ -112,7 +107,7 @@
 		 */
 		public function getScripts($environment = NULL)
 		{
-			return $this->getFiles($this->scripts, $environment);
+			return $this->assetFiles->getScripts($environment);
 		}
 
 
@@ -122,25 +117,6 @@
 		 */
 		public function getCriticalScripts($environment = NULL)
 		{
-			return $this->getFiles($this->criticalScripts, $environment);
-		}
-
-
-		/**
-		 * @param  AssetFile[] $files
-		 * @param  string|NULL $environment
-		 * @return AssetFile[]
-		 */
-		private function getFiles(array $files, $environment = NULL)
-		{
-			$res = [];
-
-			foreach ($files as $file) {
-				if ($file->isForEnvironment($environment)) {
-					$res[] = $file;
-				}
-			}
-
-			return $res;
+			return $this->assetFiles->getCriticalScripts($environment);
 		}
 	}
