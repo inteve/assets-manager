@@ -1,7 +1,7 @@
 
 # AssetsManager
 
-[![Build Status](https://travis-ci.com/inteve/assets-manager.svg?branch=master)](https://travis-ci.com/inteve/assets-manager)
+[![Tests Status](https://github.com/inteve/assets-manager/workflows/Tests/badge.svg)](https://github.com/inteve/assets-manager/actions)
 
 Assets manager for PHP apps.
 
