@@ -2,8 +2,6 @@
 
 	namespace Inteve\AssetsManager;
 
-	use CzProject\Assert\Assert;
-
 
 	class AssetFiles
 	{
