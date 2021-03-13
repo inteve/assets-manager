@@ -14,9 +14,6 @@
 		/** @var string|NULL */
 		private $defaultEnvironment;
 
-		/** @var array<string, IAssetsBundle> */
-		private $assetsBundles;
-
 		/** @var AssetFiles */
 		private $assetFiles;
 
