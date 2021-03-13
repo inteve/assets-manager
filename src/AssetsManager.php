@@ -20,6 +20,9 @@
 		/** @var Bundler|NULL */
 		private $bundler;
 
+		/** @var IFileHashProvider|NULL */
+		private $fileHashProvider;
+
 
 		/**
 		 * @param  string $publicBasePath
@@ -29,7 +32,8 @@
 		public function __construct(
 			$publicBasePath = '',
 			$defaultEnvironment = NULL,
-			array $assetsBundles = []
+			array $assetsBundles = [],
+			IFileHashProvider $fileHashProvider = NULL
 		)
 		{
 			Assert::string($publicBasePath);
@@ -37,6 +41,7 @@
 			$this->publicBasePath = $publicBasePath;
 			$this->defaultEnvironment = $defaultEnvironment;
 			$this->bundler = !empty($assetsBundles) ? new Bundler($assetsBundles) : NULL;
+			$this->fileHashProvider = $fileHashProvider;
 			$this->assetFiles = new AssetFiles;
 		}
 
@@ -54,6 +59,20 @@
 			if (Validators::isUrl($path)) {
 				return $path;
 			}
+
+			if ($this->fileHashProvider !== NULL) {
+				$hash = $this->fileHashProvider->getFileHash($path);
+
+				if ($hash !== NULL) {
+					$pathInfo = pathinfo($path);
+
+					if (isset($pathInfo['extension'])) {
+						$path = ($pathInfo['dirname'] !== '.' ? ($pathInfo['dirname'] . '/') : '') . $pathInfo['filename'] . '.' . $hash . '.' . $pathInfo['extension'];
+						return rtrim($this->publicBasePath, '/') . '/' . $path;
+					}
+				}
+			}
+
 			return rtrim($this->publicBasePath, '/') . '/' . $path;
 		}
 
