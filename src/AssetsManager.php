@@ -8,6 +8,9 @@
 
 	class AssetsManager
 	{
+		/** @var string */
+		private $publicBasePath;
+
 		/** @var string|NULL */
 		private $defaultEnvironment;
 
@@ -22,26 +25,28 @@
 
 
 		/**
+		 * @param  string
 		 * @param  string|NULL
 		 */
-		public function __construct($defaultEnvironment = NULL)
+		public function __construct($publicBasePath = '', $defaultEnvironment = NULL)
 		{
+			Assert::string($publicBasePath);
 			Assert::stringOrNull($defaultEnvironment);
+			$this->publicBasePath = $publicBasePath;
 			$this->defaultEnvironment = $defaultEnvironment;
 		}
 
 
 		/**
 		 * @param  string
-		 * @param  string
 		 * @return string
 		 */
-		public function getPath($path, $basePath = '')
+		public function getPath($path)
 		{
 			if (Validators::isUrl($path)) {
 				return $path;
 			}
-			return rtrim($basePath, '/') . '/' . $path;
+			return rtrim($this->publicBasePath, '/') . '/' . $path;
 		}
 
 

@@ -10,6 +10,6 @@ test(function () {
 	$manager = new AssetsManager;
 	Assert::null($manager->getDefaultEnvironment());
 
-	$manager = new AssetsManager('production');
+	$manager = new AssetsManager('/', 'production');
 	Assert::same('production', $manager->getDefaultEnvironment());
 });
