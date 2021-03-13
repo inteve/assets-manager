@@ -8,8 +8,8 @@
 
 	class AssetsManager
 	{
-		/** @var bool */
-		private $productionMode;
+		/** @var string|NULL */
+		private $defaultEnvironment;
 
 		/** @var AssetFile[] */
 		private $stylesheets = [];
@@ -22,12 +22,12 @@
 
 
 		/**
-		 * @param  bool
+		 * @param  string|NULL
 		 */
-		public function __construct($productionMode = TRUE)
+		public function __construct($defaultEnvironment = NULL)
 		{
-			Assert::bool($productionMode);
-			$this->productionMode = $productionMode;
+			Assert::stringOrNull($defaultEnvironment);
+			$this->defaultEnvironment = $defaultEnvironment;
 		}
 
 
@@ -46,11 +46,11 @@
 
 
 		/**
-		 * @return bool
+		 * @return string|NULL
 		 */
-		public function isProductionMode()
+		public function getDefaultEnvironment()
 		{
-			return $this->productionMode;
+			return $this->defaultEnvironment;
 		}
 
 
