@@ -129,7 +129,7 @@
 				$result[] = $file;
 			}
 
-			return $result;
+			return $this->removeDuplicates($result);
 		}
 
 
@@ -145,7 +145,7 @@
 				$result[] = $file;
 			}
 
-			return $result;
+			return $this->removeDuplicates($result);
 		}
 
 
@@ -159,6 +159,30 @@
 
 			foreach ($this->assetFiles->getCriticalScripts($environment) as $file) {
 				$result[] = $file;
+			}
+
+			return $this->removeDuplicates($result);
+		}
+
+
+		/**
+		 * @param  AssetFile[] $files
+		 * @return AssetFile[]
+		 */
+		private function removeDuplicates(array $files)
+		{
+			$result = [];
+			$usedPaths = []; // path => TRUE
+
+			foreach ($files as $file) {
+				$path = $file->getPath();
+
+				if (isset($usedPaths[$path])) {
+					continue;
+				}
+
+				$result[] = $file;
+				$usedPaths[$path] = TRUE;
 			}
 
 			return $result;
