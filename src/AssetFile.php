@@ -15,8 +15,8 @@
 
 
 		/**
-		 * @param  string
-		 * @param  string|NULL
+		 * @param  string $path
+		 * @param  string|NULL $environment
 		 */
 		public function __construct($path, $environment)
 		{
@@ -38,7 +38,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string|NULL $environment
 		 * @return bool
 		 */
 		public function isForEnvironment($environment)
@@ -48,7 +48,7 @@
 
 
 		/**
-		 * @param  string
+		 * @param  string $type
 		 * @return bool
 		 */
 		public function isOfType($type)

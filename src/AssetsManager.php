@@ -25,8 +25,8 @@
 
 
 		/**
-		 * @param  string
-		 * @param  string|NULL
+		 * @param  string $publicBasePath
+		 * @param  string|NULL $defaultEnvironment
 		 */
 		public function __construct($publicBasePath = '', $defaultEnvironment = NULL)
 		{
@@ -38,7 +38,7 @@
 
 
 		/**
-		 * @param  string|AssetFile
+		 * @param  string|AssetFile $path
 		 * @return string
 		 */
 		public function getPath($path)
@@ -64,8 +64,8 @@
 
 
 		/**
-		 * @param  string
-		 * @param  string|NULL
+		 * @param  string $file
+		 * @param  string|NULL $environment
 		 * @return void
 		 */
 		public function addStylesheet($file, $environment = NULL)
@@ -75,8 +75,8 @@
 
 
 		/**
-		 * @param  string
-		 * @param  string|NULL
+		 * @param  string $file
+		 * @param  string|NULL $environment
 		 * @return void
 		 */
 		public function addScript($file, $environment = NULL)
@@ -86,8 +86,8 @@
 
 
 		/**
-		 * @param  string
-		 * @param  string|NULL
+		 * @param  string $file
+		 * @param  string|NULL $environment
 		 * @return void
 		 */
 		public function addCriticalScript($file, $environment = NULL)
@@ -97,7 +97,7 @@
 
 
 		/**
-		 * @param  string|NULL
+		 * @param  string|NULL $environment
 		 * @return AssetFile[]
 		 */
 		public function getStylesheets($environment = NULL)
@@ -107,7 +107,7 @@
 
 
 		/**
-		 * @param  string|NULL
+		 * @param  string|NULL $environment
 		 * @return AssetFile[]
 		 */
 		public function getScripts($environment = NULL)
@@ -117,7 +117,7 @@
 
 
 		/**
-		 * @param  string|NULL
+		 * @param  string|NULL $environment
 		 * @return AssetFile[]
 		 */
 		public function getCriticalScripts($environment = NULL)
@@ -126,6 +126,11 @@
 		}
 
 
+		/**
+		 * @param  AssetFile[] $files
+		 * @param  string|NULL $environment
+		 * @return AssetFile[]
+		 */
 		private function getFiles(array $files, $environment = NULL)
 		{
 			$res = [];
