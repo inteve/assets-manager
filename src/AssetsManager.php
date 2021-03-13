@@ -14,20 +14,32 @@
 		/** @var string|NULL */
 		private $defaultEnvironment;
 
+		/** @var array<string, IAssetsBundle> */
+		private $assetsBundles;
+
 		/** @var AssetFiles */
 		private $assetFiles;
+
+		/** @var Bundler|NULL */
+		private $bundler;
 
 
 		/**
 		 * @param  string $publicBasePath
 		 * @param  string|NULL $defaultEnvironment
+		 * @param  IAssetsBundle[] $assetsBundles
 		 */
-		public function __construct($publicBasePath = '', $defaultEnvironment = NULL)
+		public function __construct(
+			$publicBasePath = '',
+			$defaultEnvironment = NULL,
+			array $assetsBundles = []
+		)
 		{
 			Assert::string($publicBasePath);
 			Assert::stringOrNull($defaultEnvironment);
 			$this->publicBasePath = $publicBasePath;
 			$this->defaultEnvironment = $defaultEnvironment;
+			$this->bundler = !empty($assetsBundles) ? new Bundler($assetsBundles) : NULL;
 			$this->assetFiles = new AssetFiles;
 		}
 
@@ -55,6 +67,20 @@
 		public function getDefaultEnvironment()
 		{
 			return $this->defaultEnvironment;
+		}
+
+
+		/**
+		 * @param  string $name
+		 * @return void
+		 */
+		public function requireBundle($name)
+		{
+			if ($this->bundler === NULL) {
+				throw new InvalidStateException('No bundles.');
+			}
+
+			$this->bundler->requireBundle($name);
 		}
 
 
@@ -97,7 +123,13 @@
 		 */
 		public function getStylesheets($environment = NULL)
 		{
-			return $this->assetFiles->getStylesheets($environment);
+			$result = $this->bundler !== NULL ? $this->bundler->getStylesheets($environment) : [];
+
+			foreach ($this->assetFiles->getStylesheets($environment) as $file) {
+				$result[] = $file;
+			}
+
+			return $result;
 		}
 
 
@@ -107,7 +139,13 @@
 		 */
 		public function getScripts($environment = NULL)
 		{
-			return $this->assetFiles->getScripts($environment);
+			$result = $this->bundler !== NULL ? $this->bundler->getScripts($environment) : [];
+
+			foreach ($this->assetFiles->getScripts($environment) as $file) {
+				$result[] = $file;
+			}
+
+			return $result;
 		}
 
 
@@ -117,6 +155,12 @@
 		 */
 		public function getCriticalScripts($environment = NULL)
 		{
-			return $this->assetFiles->getCriticalScripts($environment);
+			$result = $this->bundler !== NULL ? $this->bundler->getCriticalScripts($environment) : [];
+
+			foreach ($this->assetFiles->getCriticalScripts($environment) as $file) {
+				$result[] = $file;
+			}
+
+			return $result;
 		}
 	}
