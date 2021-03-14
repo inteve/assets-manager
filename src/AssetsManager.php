@@ -3,6 +3,7 @@
 	namespace Inteve\AssetsManager;
 
 	use CzProject\Assert\Assert;
+	use Nette\Utils\Html;
 	use Nette\Utils\Validators;
 
 
@@ -178,6 +179,63 @@
 			}
 
 			return $this->removeDuplicates($result);
+		}
+
+
+		/**
+		 * @param  string|NULL $environment
+		 * @return Html[]
+		 */
+		public function getStylesheetsTags($environment = NULL)
+		{
+			$tags = [];
+
+			foreach ($this->getStylesheets($environment) as $file) {
+				$rel = 'stylesheet';
+
+				if ($file->isOfType('less')) {
+					$rel = 'stylesheet/less';
+				}
+
+				$tags[] = Html::el('link')
+					->rel($rel)
+					->type('text/css')
+					->href($this->getPath($file));
+			}
+
+			return $tags;
+		}
+
+
+		/**
+		 * @param  string|NULL $environment
+		 * @return Html[]
+		 */
+		public function getScriptsTags($environment = NULL)
+		{
+			$tags = [];
+
+			foreach ($this->getScripts($environment) as $file) {
+				$tags[] = Html::el('script')->src($this->getPath($file));
+			}
+
+			return $tags;
+		}
+
+
+		/**
+		 * @param  string|NULL $environment
+		 * @return Html[]
+		 */
+		public function getCriticalScriptsTags($environment = NULL)
+		{
+			$tags = [];
+
+			foreach ($this->getCriticalScripts($environment) as $file) {
+				$tags[] = Html::el('script')->src($this->getPath($file));
+			}
+
+			return $tags;
 		}
 
 
