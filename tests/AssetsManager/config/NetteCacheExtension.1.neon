@@ -1,0 +1,2 @@
+extensions:
+	assetsNetteCache: Inteve\AssetsManager\DI\NetteCacheExtension(%wwwDir%, 8)
