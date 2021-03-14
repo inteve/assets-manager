@@ -34,7 +34,7 @@
 
 		public function registerAssets(Bundle $bundle)
 		{
-			$bundle->addScript($this->basePath . 'less.config.js', $this->environment);
-			$bundle->addScript($this->basePath . 'less.js', $this->environment);
+			$bundle->addCriticalScript($this->basePath . 'less.config.js', $this->environment);
+			$bundle->addCriticalScript($this->basePath . 'less.js', $this->environment);
 		}
 	}

@@ -18,7 +18,7 @@ test(function () use ($bundler) {
 	Assert::same([
 		'less.config.js',
 		'less.js',
-	], extractPaths($bundle->getScripts('development')));
+	], extractPaths($bundle->getCriticalScripts('development')));
 });
 
 
@@ -31,5 +31,5 @@ test(function () use ($bundler) {
 	Assert::same([
 		'assets/path/less.config.js',
 		'assets/path/less.js',
-	], extractPaths($bundle->getScripts('production')));
+	], extractPaths($bundle->getCriticalScripts('production')));
 });
