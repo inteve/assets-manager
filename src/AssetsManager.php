@@ -61,7 +61,7 @@
 				return $path;
 			}
 
-			if ($this->fileHashProvider !== NULL) {
+			if ($this->fileHashProvider !== NULL && $this->canUseFileHashProvider($path)) {
 				$hash = $this->fileHashProvider->getFileHash($path);
 
 				if ($hash !== NULL) {
@@ -260,5 +260,20 @@
 			}
 
 			return $result;
+		}
+
+
+		/**
+		 * @param  string $path
+		 * @return bool
+		 */
+		private function canUseFileHashProvider($path)
+		{
+			$extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+			return in_array($extension, [
+				'js',
+				'css',
+				'less',
+			], TRUE);
 		}
 	}

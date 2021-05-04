@@ -7,6 +7,15 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+class DummyFileHashProvider implements \Inteve\AssetsManager\IFileHashProvider
+{
+	public function getFileHash($path)
+	{
+		return '000000';
+	}
+}
+
+
 test(function () {
 	$directory = __DIR__ . '/../temp/';
 	$fileHashProvider = new Md5FileHashProvider($directory);
@@ -28,4 +37,16 @@ test(function () {
 	}
 
 	Assert::same('http://example.com/file.css', $manager->getPath('http://example.com/file.css'));
+});
+
+
+test(function () {
+	$fileHashProvider = new DummyFileHashProvider;
+	$manager = new AssetsManager('/assets/', NULL, [], $fileHashProvider);
+
+	Assert::same('/assets/scripts.000000.js', $manager->getPath('scripts.js'));
+	Assert::same('/assets/styles.000000.css', $manager->getPath('styles.css'));
+	Assert::same('/assets/styles.000000.less', $manager->getPath('styles.less'));
+	Assert::same('/assets/favicon.ico', $manager->getPath('favicon.ico'));
+	Assert::same('/assets/image.jpg', $manager->getPath('image.jpg'));
 });
