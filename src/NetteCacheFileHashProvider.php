@@ -21,7 +21,7 @@
 		 * @param string $realBasePath
 		 * @param int $hashLength
 		 */
-		public function __construct($realBasePath, $hashLength = 10, Nette\Caching\IStorage $storage)
+		public function __construct($realBasePath, Nette\Caching\IStorage $storage, $hashLength = 10)
 		{
 			$this->cache = new Nette\Caching\Cache($storage, 'inteve/assets-manager');
 			$this->realBasePath = $realBasePath;
