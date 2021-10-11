@@ -17,7 +17,6 @@ jobs:
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
-                  extensions: mbstring
                   coverage: none
 
             - run: composer install --no-interaction --prefer-dist
