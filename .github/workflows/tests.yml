@@ -27,3 +27,17 @@ jobs:
               with:
                   name: output
                   path: tests/**/output
+
+
+    lowest_dependencies:
+        runs-on: ubuntu-latest
+        name: Lowest Dependencies
+        steps:
+            - uses: actions/checkout@v2
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 5.6
+                  coverage: none
+
+            - run: composer update --no-interaction --prefer-dist --prefer-lowest --prefer-stable
+            - run: vendor/bin/tester tests -s -C
