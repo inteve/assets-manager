@@ -59,7 +59,7 @@ class BundleC implements IAssetsBundle
 
 
 test(function () {
-	$manager = new AssetsManager('', NULL, [
+	$manager = new AssetsManager('development', '', [
 		new BundleA,
 		new BundleB,
 		new BundleC,
@@ -75,5 +75,5 @@ test(function () {
 		'bundles/c.js',
 		'bundles/b.js',
 		'web.js'
-	], extractPaths($manager->getScripts('development')));
+	], extractPaths($manager->getScripts()));
 });

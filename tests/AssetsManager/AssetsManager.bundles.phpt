@@ -64,7 +64,7 @@ class WebBundle implements IAssetsBundle
 
 
 test(function () {
-	$manager = new AssetsManager('', NULL, [
+	$manager = new AssetsManager('development', '', [
 		new WebBundle,
 		new NetteFormsBundle,
 		new CmsFormsBundle,
@@ -80,19 +80,19 @@ test(function () {
 		'cms-forms.css',
 		'web.css',
 		'theme.css',
-	], extractPaths($manager->getStylesheets('development')));
+	], extractPaths($manager->getStylesheets()));
 
 	Assert::same([
 		'nette/forms/netteForms.js',
 		'js/forms.dev.js',
 		'js/web.js',
 		'js/auto-scroll.js',
-	], extractPaths($manager->getScripts('development')));
+	], extractPaths($manager->getScripts()));
 
 	Assert::same([
 		'nette/forms/netteForms-critical.js',
 		'js/forms.dev-critical.js',
 		'js/web-critical.js',
 		'js/auto-scroll-critical.js',
-	], extractPaths($manager->getCriticalScripts('development')));
+	], extractPaths($manager->getCriticalScripts()));
 });

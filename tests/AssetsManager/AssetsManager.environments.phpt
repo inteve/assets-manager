@@ -6,8 +6,9 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
-	$manager = new AssetsManager;
+function createAssetsManager($environment)
+{
+	$manager = new AssetsManager($environment);
 	$manager->addStylesheet('styles.css');
 	$manager->addStylesheet('dev.css', 'development');
 
@@ -17,26 +18,30 @@ test(function () {
 	$manager->addCriticalScript('scripts.js');
 	$manager->addCriticalScript('prod.js', 'production');
 
-	Assert::same([
-		'styles.css',
-	], extractPaths($manager->getStylesheets()));
+	return $manager;
+}
+
+
+test(function () {
+	$manager = createAssetsManager('development');
 
 	Assert::same([
 		'styles.css',
 		'dev.css',
-	], extractPaths($manager->getStylesheets('development')));
+	], extractPaths($manager->getStylesheets()));
+});
+
+
+test(function () {
+	$manager = createAssetsManager('production');
 
 	Assert::same([
 		'scripts.js',
+		'prod.js',
 	], extractPaths($manager->getScripts()));
 
 	Assert::same([
 		'scripts.js',
 		'prod.js',
-	], extractPaths($manager->getScripts('production')));
-
-	Assert::same([
-		'scripts.js',
-		'prod.js',
-	], extractPaths($manager->getCriticalScripts('production')));
+	], extractPaths($manager->getCriticalScripts()));
 });

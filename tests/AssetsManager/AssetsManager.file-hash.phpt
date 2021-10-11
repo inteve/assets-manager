@@ -24,7 +24,7 @@ test(function () {
 	$contents['a.js'] = 'document.write();';
 	$contents['css/styles.css'] = 'body {color:red}';
 
-	$manager = new AssetsManager('/assets/', NULL, [], $fileHashProvider);
+	$manager = new AssetsManager('production', '/assets/', [], $fileHashProvider);
 
 	foreach ($contents as $file => $content) {
 		$realPath = $directory . '/' . $file;
@@ -42,7 +42,7 @@ test(function () {
 
 test(function () {
 	$fileHashProvider = new DummyFileHashProvider;
-	$manager = new AssetsManager('/assets/', NULL, [], $fileHashProvider);
+	$manager = new AssetsManager('production', '/assets/', [], $fileHashProvider);
 
 	Assert::same('/assets/scripts.000000.js', $manager->getPath('scripts.js'));
 	Assert::same('/assets/styles.000000.css', $manager->getPath('styles.css'));

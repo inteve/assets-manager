@@ -6,8 +6,9 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
-	$manager = new AssetsManager;
+function createAssetsManager($environment)
+{
+	$manager = new AssetsManager($environment);
 	$manager->addStylesheet('styles.css');
 	$manager->addStylesheet('dev.less', 'development');
 
@@ -17,9 +18,16 @@ test(function () {
 	$manager->addCriticalScript('critical-scripts.js');
 	$manager->addCriticalScript('critical-prod.js', 'production');
 
+	return $manager;
+}
+
+
+test(function () {
+	$manager = createAssetsManager('development');
+
 	$stylesheetsTags = [];
 
-	foreach ($manager->getStylesheetsTags('development') as $assetTag) {
+	foreach ($manager->getStylesheetsTags() as $assetTag) {
 		$stylesheetsTags[] = (string) $assetTag;
 	}
 
@@ -27,10 +35,15 @@ test(function () {
 		'<link rel="stylesheet" type="text/css" href="/styles.css">',
 		'<link rel="stylesheet/less" type="text/css" href="/dev.less">',
 	], $stylesheetsTags);
+});
+
+
+test(function () {
+	$manager = createAssetsManager('production');
 
 	$scriptsTags = [];
 
-	foreach ($manager->getScriptsTags('production') as $assetTag) {
+	foreach ($manager->getScriptsTags() as $assetTag) {
 		$scriptsTags[] = (string) $assetTag;
 	}
 
@@ -41,7 +54,7 @@ test(function () {
 
 	$criticalScriptsTags = [];
 
-	foreach ($manager->getCriticalScriptsTags('production') as $assetTag) {
+	foreach ($manager->getCriticalScriptsTags() as $assetTag) {
 		$criticalScriptsTags[] = (string) $assetTag;
 	}
 

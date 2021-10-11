@@ -12,8 +12,8 @@
 		/** @var string */
 		private $publicBasePath;
 
-		/** @var string|NULL */
-		private $defaultEnvironment;
+		/** @var string */
+		private $environment;
 
 		/** @var AssetFiles */
 		private $assetFiles;
@@ -26,21 +26,22 @@
 
 
 		/**
+		 * @param  string $environment
 		 * @param  string $publicBasePath
-		 * @param  string|NULL $defaultEnvironment
 		 * @param  IAssetsBundle[] $assetsBundles
 		 */
 		public function __construct(
+			$environment,
 			$publicBasePath = '',
-			$defaultEnvironment = NULL,
 			array $assetsBundles = [],
 			IFileHashProvider $fileHashProvider = NULL
 		)
 		{
 			Assert::string($publicBasePath);
-			Assert::stringOrNull($defaultEnvironment);
+			Assert::string($environment);
+
 			$this->publicBasePath = $publicBasePath;
-			$this->defaultEnvironment = $defaultEnvironment;
+			$this->environment = $environment;
 			$this->bundler = !empty($assetsBundles) ? new Bundler($assetsBundles) : NULL;
 			$this->fileHashProvider = $fileHashProvider;
 			$this->assetFiles = new AssetFiles;
@@ -75,15 +76,6 @@
 			}
 
 			return rtrim($this->publicBasePath, '/') . '/' . $path;
-		}
-
-
-		/**
-		 * @return string|NULL
-		 */
-		public function getDefaultEnvironment()
-		{
-			return $this->defaultEnvironment;
 		}
 
 
@@ -135,14 +127,13 @@
 
 
 		/**
-		 * @param  string|NULL $environment
 		 * @return AssetFile[]
 		 */
-		public function getStylesheets($environment = NULL)
+		public function getStylesheets()
 		{
-			$result = $this->bundler !== NULL ? $this->bundler->getStylesheets($environment) : [];
+			$result = $this->bundler !== NULL ? $this->bundler->getStylesheets($this->environment) : [];
 
-			foreach ($this->assetFiles->getStylesheets($environment) as $file) {
+			foreach ($this->assetFiles->getStylesheets($this->environment) as $file) {
 				$result[] = $file;
 			}
 
@@ -151,14 +142,13 @@
 
 
 		/**
-		 * @param  string|NULL $environment
 		 * @return AssetFile[]
 		 */
-		public function getScripts($environment = NULL)
+		public function getScripts()
 		{
-			$result = $this->bundler !== NULL ? $this->bundler->getScripts($environment) : [];
+			$result = $this->bundler !== NULL ? $this->bundler->getScripts($this->environment) : [];
 
-			foreach ($this->assetFiles->getScripts($environment) as $file) {
+			foreach ($this->assetFiles->getScripts($this->environment) as $file) {
 				$result[] = $file;
 			}
 
@@ -167,14 +157,13 @@
 
 
 		/**
-		 * @param  string|NULL $environment
 		 * @return AssetFile[]
 		 */
-		public function getCriticalScripts($environment = NULL)
+		public function getCriticalScripts()
 		{
-			$result = $this->bundler !== NULL ? $this->bundler->getCriticalScripts($environment) : [];
+			$result = $this->bundler !== NULL ? $this->bundler->getCriticalScripts($this->environment) : [];
 
-			foreach ($this->assetFiles->getCriticalScripts($environment) as $file) {
+			foreach ($this->assetFiles->getCriticalScripts($this->environment) as $file) {
 				$result[] = $file;
 			}
 
@@ -183,14 +172,13 @@
 
 
 		/**
-		 * @param  string|NULL $environment
 		 * @return Html[]
 		 */
-		public function getStylesheetsTags($environment = NULL)
+		public function getStylesheetsTags()
 		{
 			$tags = [];
 
-			foreach ($this->getStylesheets($environment) as $file) {
+			foreach ($this->getStylesheets() as $file) {
 				$rel = 'stylesheet';
 
 				if ($file->isOfType('less')) {
@@ -208,14 +196,13 @@
 
 
 		/**
-		 * @param  string|NULL $environment
 		 * @return Html[]
 		 */
-		public function getScriptsTags($environment = NULL)
+		public function getScriptsTags()
 		{
 			$tags = [];
 
-			foreach ($this->getScripts($environment) as $file) {
+			foreach ($this->getScripts() as $file) {
 				$tags[] = Html::el('script')->src($this->getPath($file));
 			}
 
@@ -224,14 +211,13 @@
 
 
 		/**
-		 * @param  string|NULL $environment
 		 * @return Html[]
 		 */
-		public function getCriticalScriptsTags($environment = NULL)
+		public function getCriticalScriptsTags()
 		{
 			$tags = [];
 
-			foreach ($this->getCriticalScripts($environment) as $file) {
+			foreach ($this->getCriticalScripts() as $file) {
 				$tags[] = Html::el('script')->src($this->getPath($file));
 			}
 
