@@ -17,7 +17,7 @@
 
 		/**
 		 * @param string $photoswipeBasePath
-		 * @param string $handlerBasePath
+		 * @param string|NULL $handlerBasePath
 		 */
 		public function __construct($photoswipeBasePath, $handlerBasePath = NULL)
 		{
