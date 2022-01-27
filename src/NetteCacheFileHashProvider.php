@@ -35,8 +35,11 @@
 		 */
 		public function getFileHash($path)
 		{
-			return $this->cache->load($this->realBasePath . '/' . $path, function () use ($path) {
+			$hash = $this->cache->load($this->realBasePath . '/' . $path, function () use ($path) {
 				return $this->fileHashProvider->getFileHash($path);
 			});
+
+			assert($hash === NULL || is_string($hash));
+			return $hash;
 		}
 	}
