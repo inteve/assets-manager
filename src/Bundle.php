@@ -73,11 +73,12 @@
 		/**
 		 * @param  string $file
 		 * @param  string|NULL $environment
+		 * @param  int $category
 		 * @return void
 		 */
-		public function addStylesheet($file, $environment = NULL)
+		public function addStylesheet($file, $environment = NULL, $category = AssetsManager::GENERIC)
 		{
-			$this->assetFiles->addStylesheet($file, $environment);
+			$this->assetFiles->addStylesheet($file, $environment, $category);
 		}
 
 
@@ -105,11 +106,21 @@
 
 		/**
 		 * @param  string|NULL $environment
+		 * @param  int $category
 		 * @return AssetFile[]
 		 */
-		public function getStylesheets($environment = NULL)
+		public function getStylesheets($environment = NULL, $category = AssetsManager::GENERIC)
 		{
-			return $this->assetFiles->getStylesheets($environment);
+			return $this->assetFiles->getStylesheets($environment, $category);
+		}
+
+
+		/**
+		 * @return int[]
+		 */
+		public function getStylesheetsCategories()
+		{
+			return $this->assetFiles->getStylesheetsCategories();
 		}
 
 

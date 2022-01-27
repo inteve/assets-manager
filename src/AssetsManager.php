@@ -9,6 +9,14 @@
 
 	class AssetsManager
 	{
+		const SETTINGS = 100;
+		const TOOLS = 200;
+		const GENERIC = 300;
+		const ELEMENTS = 400;
+		const OBJECTS = 500;
+		const COMPONENTS = 600;
+		const UTILITIES = 700;
+
 		/** @var string */
 		private $publicBasePath;
 
@@ -97,11 +105,12 @@
 		/**
 		 * @param  string $file
 		 * @param  string|NULL $environment
+		 * @param  int $category
 		 * @return void
 		 */
-		public function addStylesheet($file, $environment = NULL)
+		public function addStylesheet($file, $environment = NULL, $category = AssetsManager::GENERIC)
 		{
-			$this->assetFiles->addStylesheet($file, $environment);
+			$this->assetFiles->addStylesheet($file, $environment, $category);
 		}
 
 
@@ -132,10 +141,23 @@
 		 */
 		public function getStylesheets()
 		{
-			$result = $this->bundler !== NULL ? $this->bundler->getStylesheets($this->environment) : [];
+			$categories = array_unique(array_merge(
+				$this->assetFiles->getStylesheetsCategories(),
+				$this->bundler !== NULL ? $this->bundler->getStylesheetsCategories() : []
+			));
+			sort($categories, SORT_NUMERIC);
+			$result = [];
 
-			foreach ($this->assetFiles->getStylesheets($this->environment) as $file) {
-				$result[] = $file;
+			foreach ($categories as $category) {
+				if ($this->bundler !== NULL) {
+					foreach ($this->bundler->getStylesheets($this->environment, $category) as $file) {
+						$result[] = $file;
+					}
+				}
+
+				foreach ($this->assetFiles->getStylesheets($this->environment, $category) as $file) {
+					$result[] = $file;
+				}
 			}
 
 			return $this->removeDuplicates($result);

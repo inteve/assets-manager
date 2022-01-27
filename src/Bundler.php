@@ -59,15 +59,31 @@
 
 		/**
 		 * @param  string|NULL $environment
+		 * @param  int $category
 		 * @return AssetFile[]
 		 */
-		public function getStylesheets($environment = NULL)
+		public function getStylesheets($environment = NULL, $category = AssetsManager::GENERIC)
 		{
 			$result = [];
 
 			foreach ($this->getSortedBundles() as $bundle) {
-				$files = $bundle->getStylesheets($environment);
+				$files = $bundle->getStylesheets($environment, $category);
 				$result = array_merge($result, $files);
+			}
+
+			return $result;
+		}
+
+
+		/**
+		 * @return int[]
+		 */
+		public function getStylesheetsCategories()
+		{
+			$result = [];
+
+			foreach ($this->getSortedBundles() as $bundle) {
+				$result = array_merge($result, $bundle->getStylesheetsCategories());
 			}
 
 			return $result;

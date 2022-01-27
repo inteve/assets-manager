@@ -5,7 +5,7 @@
 
 	class AssetFiles
 	{
-		/** @var AssetFile[] */
+		/** @var array<int, AssetFile[]> */
 		private $stylesheets = [];
 
 		/** @var AssetFile[] */
@@ -18,11 +18,16 @@
 		/**
 		 * @param  string $file
 		 * @param  string|NULL $environment
+		 * @param  int $category
 		 * @return void
 		 */
-		public function addStylesheet($file, $environment = NULL)
+		public function addStylesheet($file, $environment = NULL, $category = AssetsManager::GENERIC)
 		{
-			$this->stylesheets[] = new AssetFile($file, $environment);
+			if (!isset($this->stylesheets[$category])) {
+				$this->stylesheets[$category] = [];
+			}
+
+			$this->stylesheets[$category][] = new AssetFile($file, $environment);
 		}
 
 
@@ -50,11 +55,21 @@
 
 		/**
 		 * @param  string|NULL $environment
+		 * @param  int $category
 		 * @return AssetFile[]
 		 */
-		public function getStylesheets($environment = NULL)
+		public function getStylesheets($environment = NULL, $category = AssetsManager::GENERIC)
 		{
-			return $this->getFiles($this->stylesheets, $environment);
+			return $this->getFiles(isset($this->stylesheets[$category]) ? $this->stylesheets[$category] : [], $environment);
+		}
+
+
+		/**
+		 * @return int[]
+		 */
+		public function getStylesheetsCategories()
+		{
+			return array_keys($this->stylesheets);
 		}
 
 
