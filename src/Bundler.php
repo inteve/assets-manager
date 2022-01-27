@@ -36,11 +36,14 @@
 
 		/**
 		 * @param  string $name
+		 * @param  string|NULL $subset
 		 * @return void
 		 */
-		public function requireBundle($name)
+		public function requireBundle($name, $subset = NULL)
 		{
-			if (isset($this->requiredBundles[$name])) { // already required
+			$bundleId = self::formatBundleId($name, $subset);
+
+			if (isset($this->requiredBundles[$bundleId])) { // already required
 				return;
 			}
 
@@ -48,8 +51,8 @@
 				throw new InvalidArgumentException("Bundle '$name' not exists.");
 			}
 
-			$bundle = new Bundle($this);
-			$this->requiredBundles[$name] = $bundle;
+			$bundle = new Bundle($this, $subset);
+			$this->requiredBundles[$bundleId] = $bundle;
 			$this->assetsBundles[$name]->registerAssets($bundle);
 		}
 
@@ -125,5 +128,20 @@
 			}
 
 			return $this->sortedBundles;
+		}
+
+
+		/**
+		 * @param  string $name
+		 * @param  string|NULL $subset
+		 * @return string
+		 */
+		public static function formatBundleId($name, $subset)
+		{
+			if ($subset === NULL) {
+				return $name;
+			}
+
+			return $name . '@' . $subset;
 		}
 	}

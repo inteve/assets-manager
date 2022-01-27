@@ -8,6 +8,9 @@
 		/** @var Bundler */
 		private $bundler;
 
+		/** @var string|NULL */
+		private $subset;
+
 		/** @var AssetFiles */
 		private $assetFiles;
 
@@ -15,21 +18,46 @@
 		private $requireBundles = [];
 
 
-		public function __construct(Bundler $bundler)
+		/**
+		 * @param Bundler $bundler
+		 * @param string|NULL $subset
+		 */
+		public function __construct(Bundler $bundler, $subset = NULL)
 		{
 			$this->bundler = $bundler;
+			$this->subset = $subset;
 			$this->assetFiles = new AssetFiles;
 		}
 
 
 		/**
+		 * @param  string $subset
+		 * @return bool
+		 */
+		public function isSubset($subset)
+		{
+			return $this->subset === $subset;
+		}
+
+
+		/**
+		 * @return string|NULL
+		 */
+		public function getSubset()
+		{
+			return $this->subset;
+		}
+
+
+		/**
 		 * @param  string $name
+		 * @param  string|NULL $subset
 		 * @return void
 		 */
-		public function requireBundle($name)
+		public function requireBundle($name, $subset = NULL)
 		{
-			$this->bundler->requireBundle($name);
-			$this->requireBundles[] = $name;
+			$this->bundler->requireBundle($name, $subset);
+			$this->requireBundles[] = Bundler::formatBundleId($name, $subset);
 		}
 
 

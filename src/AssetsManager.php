@@ -81,15 +81,16 @@
 
 		/**
 		 * @param  string $name
+		 * @param  string|NULL $subset
 		 * @return void
 		 */
-		public function requireBundle($name)
+		public function requireBundle($name, $subset = NULL)
 		{
 			if ($this->bundler === NULL) {
 				throw new InvalidStateException('No bundles.');
 			}
 
-			$this->bundler->requireBundle($name);
+			$this->bundler->requireBundle($name, $subset);
 		}
 
 
