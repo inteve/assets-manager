@@ -1,7 +1,9 @@
-
 # AssetsManager
 
-[![Tests Status](https://github.com/inteve/assets-manager/workflows/Tests/badge.svg)](https://github.com/inteve/assets-manager/actions)
+[![Build Status](https://github.com/inteve/assets-manager/workflows/Build/badge.svg)](https://github.com/inteve/assets-manager/actions)
+[![Downloads this Month](https://img.shields.io/packagist/dm/inteve/assets-manager.svg)](https://packagist.org/packages/inteve/assets-manager)
+[![Latest Stable Version](https://poser.pugx.org/inteve/assets-manager/v/stable)](https://github.com/inteve/assets-manager/releases)
+[![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/inteve/assets-manager/blob/master/license.md)
 
 Assets manager for PHP apps.
 
