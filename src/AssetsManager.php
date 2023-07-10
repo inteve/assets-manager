@@ -77,7 +77,7 @@
 					$pathInfo = pathinfo($path);
 
 					if (isset($pathInfo['extension'])) {
-						$path = ($pathInfo['dirname'] !== '.' ? ($pathInfo['dirname'] . '/') : '') . $pathInfo['filename'] . '.' . $hash . '.' . $pathInfo['extension'];
+						$path = ((isset($pathInfo['dirname']) && $pathInfo['dirname'] !== '.') ? ($pathInfo['dirname'] . '/') : '') . $pathInfo['filename'] . '.' . $hash . '.' . $pathInfo['extension'];
 						return rtrim($this->publicBasePath, '/') . '/' . $path;
 					}
 				}
