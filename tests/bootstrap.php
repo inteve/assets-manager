@@ -1,16 +1,25 @@
 <?php
 
+use Inteve\AssetsManager\AssetFile;
+
 require __DIR__ . '/../vendor/autoload.php';
 
 Tester\Environment::setup();
 
 
-function test($cb)
+/**
+ * @return void
+ */
+function test(callable $cb)
 {
 	$cb();
 }
 
 
+/**
+ * @param  AssetFile[] $files
+ * @return string[]
+ */
 function extractPaths(array $files)
 {
 	$res = [];
@@ -23,6 +32,9 @@ function extractPaths(array $files)
 }
 
 
+/**
+ * @return string
+ */
 function prepareTempDir()
 {
 	static $dirs = [];
