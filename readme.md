@@ -18,7 +18,7 @@ Assets manager for PHP apps.
 composer require inteve/assets-manager
 ```
 
-Inteve\Assets-manager requires PHP 5.6.0 or later.
+Inteve\Assets-manager requires PHP 8.0 or later.
 
 
 ## Usage
