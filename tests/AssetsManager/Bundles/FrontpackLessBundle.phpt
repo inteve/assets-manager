@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Inteve\AssetsManager\Bundle;
 use Inteve\AssetsManager\Bundler;
 use Inteve\AssetsManager\Bundles;

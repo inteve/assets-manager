@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Inteve\AssetsManager\IFileHashProvider;
 use Inteve\AssetsManager\NetteCacheFileHashProvider;
 use Nette\Configurator;

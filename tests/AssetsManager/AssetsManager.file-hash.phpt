@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Inteve\AssetsManager\AssetsManager;
 use Inteve\AssetsManager\Md5FileHashProvider;
 use Tester\Assert;
