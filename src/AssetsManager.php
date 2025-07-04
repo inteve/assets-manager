@@ -44,7 +44,7 @@
 			$environment,
 			$publicBasePath = '',
 			array $assetsBundles = [],
-			IFileHashProvider $fileHashProvider = NULL
+			?IFileHashProvider $fileHashProvider = NULL
 		)
 		{
 			Assert::string($publicBasePath);
