@@ -39,6 +39,7 @@ function extractPaths(array $files)
  */
 function prepareTempDir()
 {
+	/** @var array<string, bool> $dirs */
 	static $dirs = [];
 
 	@mkdir(__DIR__ . '/temp/');  # @ - directory may already exist
